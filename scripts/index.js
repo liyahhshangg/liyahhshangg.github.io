@@ -19,7 +19,7 @@ function calcCourseGrade (currGrade, finalGrade, finalWeight) {
 function calcGpaImpact (currGPA, compCreds, newGrade, newCreds) {
   let totalPoints = currGPA * compCreds + newGrade * newCreds; 
   let totalCreds = parseInt(compCreds) + parseInt(newCreds); 
-  let newGPA = totalPoints / totalCreds; 
+  let newGPA = Math.round((totalPoints / totalCreds) * 100) / 100; 
   let gpaImpact = Math.round((newGPA - currGPA) * 1000) / 1000; 
   return {newGPA, gpaImpact}; 
 }
