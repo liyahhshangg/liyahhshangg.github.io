@@ -36,15 +36,16 @@ function calcGpaImpact(currGPA, compCreds, newGrade, newCreds) {
 }
 
 function createScreen(array, array2) {
+  const mains = document.getElementsByClassName("main");
   if (array.name == "finalSlider") {
-    console.log("FINAL"); 
+    mains[0].style.height = "154.75vh"; //95+55+4.75
     clearScreen();
     createAbout(array.name);
     createInputs(array.value, array2.value);
     //createSlider(); 
-    createChart(); 
+    createChart(90, 15); 
   } else {
-    console.log("nope!");
+    mains[0].style.height = "95vh"; 
     clearScreen();
     createAbout(array.name);
     createInputs(array.value, array2.value);
@@ -76,13 +77,13 @@ function createAbout(arrName) {
   }
   const abouts = document.getElementsByClassName("about");
   if (arrName == "reqGrade") {
-    abouts[0].innerHTML = "final grade calculator: calculates what final exam grade you'll need to get desired class grade";
+    abouts[0].innerHTML = "final grade calculator: calculates what final exam grade you'll need to get desired course grade";
   } else if (arrName == "courseGrade") {
-    abouts[0].innerHTML = "course grade calculator: calculates your overall class grade after you've taken the final";
+    abouts[0].innerHTML = "course grade calculator: calculates your overall course grade after you've taken the final";
   } else if (arrName == "gpaImpact") {
-    abouts[0].innerHTML = "gpa impact calculator: calculates your new gpa and overall gpa impact after taking a new class";
+    abouts[0].innerHTML = "gpa impact calculator: calculates your new gpa and overall gpa impact after taking a new course";
   } else if (arrName == "finalSlider") {
-    abouts[0].innerHTML = "what if? this tool visualizes the max/min course grade you can get for different final grade inputs. ";
+    abouts[0].innerHTML = "what if? this tool visualizes the max/min course grade you can get for different final exam scores ";
   }
 }
 
@@ -123,28 +124,72 @@ function createEnter() {
   enters[0].appendChild(enterInput);
 }
 
-function createChart() {
-  
+function updateChart(currG, finalW) {
+  for (let i = 0; i < 111; i+=1) {
+    chart.options.data[0].dataPoints[i].y = calcCourseGrade(currG, i, finalW);
+  }
+  chart.render(); 
+}
+
+function createChart(currG, finalW) {
   const chartDiv = document.createElement("div");
   chartDiv.classList.add("charts");
   chartDiv.id = "chartContainer";
+  chartDiv.style = "height: var(--def-width-1); width: calc(1.1 * var(--def-width-2));"
   const mains = document.getElementsByClassName("main");
   mains[0].appendChild(chartDiv);
 
   let dPs = [];
   let xVal = 0;
-
-  let chart = new CanvasJS.Chart("chartContainer", {
-    animationEnabled: false,
-    theme: "light2",
-    title: { text: "Live Updating Line Chart" },
-    axisX: { title: "Time (s)" },
-    axisY: { title: "Value", includeZero: false },
+  let yVal = 0; 
+  chart = new CanvasJS.Chart("chartContainer", {
+    title: { 
+      text: "so what if?", 
+      fontColor: "rgb(125, 155, 215)", 
+      fontFamily: "courier new", 
+      padding: "10", 
+    },
+    axisX: { 
+      title: "what if? final exam score (%)", 
+      titleFontColor: "black",
+      titleFontFamily: "courier new",
+      titlePadding: 15,
+      includeZero: true, 
+    },
+    axisY: { 
+      title: "overall course grade", 
+      titleFontColor: "black",
+      titleFontFamily: "courier new",
+      titlePadding: 20,
+    }, 
     data: [{
       type: "line",
-      dataPoints: dPs
-    }]
-  });
+      dataPoints: dPs, 
+    }], 
+    toolTip: {
+      fontColor: "black", 
+      fontWeight: "bold", 
+      fontFamily: "courier new", 
+      backgroundColor: "white", 
+      borderThickness: 10.5, 
+      borderColor: "white", 
+      cornerRadius: 2, 
+      content: "final exam score: {x}%, course grade: {y}",
+    }, 
+    interactivityEnabled: true, 
+    showTooltips: true, 
+    titleWrap: true,
+  }); 
+
+  for (let i = 0; i < 111; i+=1) {
+    xVal = i; 
+    yVal = calcCourseGrade(currG, i, finalW); 
+    dPs.push({
+      x: xVal,
+      y: yVal
+    });
+  }
+  chart.render();
 }
 
 //TO-DO: 
@@ -184,6 +229,7 @@ let finalSliderText = {
   value: ["current grade: ", "final weight: ", "currGrade eg: 88.5", "finalWeight eg: 15"]
 }
 
+let chart; 
 let mode = reqGrade;
 let mode2 = reqGradeText;
 createScreen(mode, mode2);
@@ -221,6 +267,32 @@ enters[0].addEventListener("click", (event) => {
   const enterButton = event.target.closest(".enterParam");
   if (enterButton && checkInputs()) { 
     displayResult(mode); 
+  }
+});
+
+document.addEventListener("change", function (e) {
+  const target = e.target.closest("#currGrade"); 
+  if (target && mode.name == "finalSlider") {
+    if (form.elements[1].value == "") {
+      console.log("no 2nd val"); 
+      updateChart(parseInt(form.elements[0].value), 15);
+    } else {
+      console.log("1"); 
+      updateChart(parseInt(form.elements[0].value), parseInt(form.elements[1].value));
+    }
+  }
+});
+
+document.addEventListener("change", function (e) {
+  const target = e.target.closest("#finalWeight");
+  if (target && mode.name == "finalSlider") {
+    if (form.elements[0].value == "") {
+      console.log("no 1st val"); 
+      updateChart(90, parseInt(form.elements[1].value));
+    } else {
+      console.log("2"); 
+      updateChart(parseInt(form.elements[0].value), parseInt(form.elements[1].value));
+    }
   }
 });
 

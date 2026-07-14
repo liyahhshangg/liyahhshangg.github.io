@@ -15,7 +15,7 @@
 }
 
 * {
-  outline: 2px black solid; 
+  /* outline: 2px black solid;  */
   font-family: "courier new"; 
 }
 
@@ -152,7 +152,7 @@
   align-items: flex-start;
   justify-content: center;
   
-  width: var(--def-width-1);
+  width: var(--def-width-2);
   height: calc(0.25*var(--main-height));
 
   margin-top: var(--def-margin);
@@ -181,8 +181,16 @@
   background-color: var(--option-color-active);
 }
 
-#chartContainer {
-  height: 400px;
-  width: 90%;
-  margin: auto;
+.charts {
+  outline-color: orange;
+
+  position: absolute; 
+  top: calc(0.74*var(--main-height)); 
+  left: 50%; transform: translate(-50%, calc(50% - var(--def-width-1) / 2));
+
+  margin-bottom: var(--def-margin);
+
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
 }
