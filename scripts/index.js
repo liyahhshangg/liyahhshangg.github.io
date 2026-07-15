@@ -369,14 +369,14 @@ function createToolTip() {
   const chartRect = document.getElementById("chartContainer").getBoundingClientRect();
   tooltipDiv.style.display = "block";
   tooltipDiv.style.left = (pixelX + chartRect.left - tooltipDiv.offsetWidth / 2) + "px";
-  tooltipDiv.style.top = (pixelY + 560 - 90) + "px";
+  tooltipDiv.style.top = (pixelY + 560 - 107) + "px";
   tooltipDiv.innerHTML = "final exam: " + (dp.x).toString() + " \nfinal grade: " + (dp.y).toString();
   triangle.style.display = "block";
   triangle.style.left = (pixelX + chartRect.left - triangle.offsetWidth / 2) + "px";
-  triangle.style.top = (pixelY + 560 - 25) + "px";
+  triangle.style.top = (pixelY + 560 - 42) + "px";
   dot.style.display = "block";
   dot.style.left = (pixelX + chartRect.left - dot.offsetWidth / 2) + "px";
-  dot.style.top = (pixelY + 560 - 1) + "px";
+  dot.style.top = (pixelY + 560 - 18) + "px";
 }
 
 function clearToolTip() {
@@ -384,9 +384,10 @@ function clearToolTip() {
   toolTips.forEach(elem => elem.remove());
 }
 
-//TO-DO: 
-//maybe: make so that inputs are the same width (must somehow get width of text + param + gap) 
-//maybe: make so that first input of the slider can actually work 
+// TO-DO: 
+// fix tooltip id/class names, add graphic for header 
+// maybe: add info button to explain each formula 
+// maybe: make so that first input of the slider can actually work 
 
 const reqGradeButton = document.getElementById("reqGrade");
 reqGradeButton.addEventListener("click", () => {

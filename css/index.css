@@ -185,7 +185,7 @@
   outline-color: orange;
 
   position: absolute; 
-  top: calc(0.74*var(--main-height)); 
+  top: calc(0.72*var(--main-height)); 
   left: 50%; transform: translate(-50%, calc(50% - var(--def-width-1) / 2));
 
   margin-bottom: var(--def-margin);
