@@ -29,10 +29,11 @@
   height: var(--main-height); 
 }
 
-img {
+.bg {
   z-index: -10;
   position: absolute;
   top: 0; 
+  left: auto; 
 }
 
 .header {
@@ -42,7 +43,7 @@ img {
 
   margin-top: 5.75vw;
 
-  width: var(--def-width-1); 
+  width: var(--def-width-2); 
   height: calc(0.15*var(--main-height)); 
 }
 
@@ -77,6 +78,7 @@ img {
 
 .options .option:hover {
   background-color: var(--option-color-active);
+  cursor: pointer;
 }
 
 .calculator {
@@ -186,6 +188,7 @@ img {
 
 .enter .enterParam:hover {
   background-color: var(--option-color-active);
+  cursor: pointer;
 }
 
 .charts {
@@ -216,7 +219,7 @@ img {
   pointer-events: none;
   z-index: 10;
   
-  width: calc(0.30*var(--def-width-1));
+  width: calc(0.3*var(--def-width-1));
   
   color: white;
   font-size: 15px;
@@ -253,13 +256,84 @@ img {
 }
 
 #slider {
-  -webkit-appearance: none;
   background: linear-gradient(to right, var(--option-color), var(--option-color-active));
-  border-radius: 5px;
-  outline: none;
+  border-radius: 5px; 
+  appearance: none;
+  border: none; 
+  outline: none; 
 
   margin: 20px 0px;
+
+  width: calc(0.5*var(--def-width-1));
+  height: calc(0.02*var(--main-height));
+}
+
+.infoButton {
+  background-color: var(--option-color);
+  border-radius: 20px; 
+
+  display: flex; 
+  align-items: center;
+  justify-content: center;
+
+  z-index: 20;
+  position: absolute;
+  top: calc(0.06*var(--def-width-1));
+  left: calc(0.06*var(--def-width-1));
+
+  width: calc(0.1*var(--def-width-1));
+  height: calc(0.1*var(--def-width-1));
+
+  color: white;
+  font-size: 25px;
+  font-weight: bold;
+  text-align: center;
+  white-space: pre-wrap;
+}
+
+.infoDivTri {
+  border-bottom: 25px solid var(--option-color);
+  border-left: 15px solid transparent;
+  border-right: 30px solid transparent;
+
+  z-index: 20;
+  display: flex;
+  position: absolute;
+  pointer-events: none;
+  top: calc(0.2*var(--def-width-1));
+  left: calc(0.06*var(--def-width-1));
   
-  width: calc(var(--def-width-1) / 2);
-  height: calc(0.02 * var(--main-height));
+  width: 0;
+  height: 0;
+}
+
+.infoDiv {
+  background-color: var(--option-color);
+  border-radius: 10px 20px 20px;
+
+  align-items: center;
+  justify-content: center;
+
+  z-index: 20;
+  position: absolute;
+  pointer-events: none;
+  top: calc(0.22*var(--def-width-1));
+  left: calc(0.06*var(--def-width-1)); 
+
+  width: calc(0.55*var(--def-width-1));
+  height: calc(0.35*var(--def-width-1));
+
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  white-space: pre-wrap;
+}
+
+div.infoButton:hover {
+  background-color: var(--option-color-active);
+  border-radius: 25px;
+  width: calc(0.115*var(--def-width-1));
+  height: calc(0.115*var(--def-width-1));
+  cursor: pointer;
 }

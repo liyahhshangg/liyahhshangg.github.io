@@ -73,8 +73,9 @@ let isChart = false;
 let selectedI = 50;
 let dPs = []; 
 
-let mode = reqGrade;
-let mode2 = reqGradeText;
+let mode = reqGrade; 
+let mode2 = reqGradeText; 
+let infoMode = 0; 
 createScreen(mode, mode2); 
 
 function createScreen(array, array2) {
@@ -88,7 +89,8 @@ function createScreen(array, array2) {
     options[0].style.marginTop = (1.1 * 0.05 * 95) + "vh"; 
   }
   const mains = document.getElementsByClassName("main");
-  const images = document.getElementsByClassName("image"); 
+  const images = document.getElementsByClassName("bg"); 
+  createInfo(); 
   createAbout(array.name);
   createInputs(array.value, array2.value);
   if (array.name == "finalSlider") {
@@ -399,6 +401,13 @@ function clearToolTip() {
   toolTips.forEach(elem => elem.remove());
 }
 
+function createInfo() {
+  const infoDiv = document.getElementsByClassName("infoDiv"); 
+  const infoDivTri = document.getElementsByClassName("infoDivTri"); 
+  infoDiv[0].style.display = "none"; 
+  infoDivTri[0].style.display = "none"; 
+}
+
 // TO-DO: 
 // add info button to explain each formula 
 // maybe: make so first input of slider actually fires 
@@ -505,3 +514,27 @@ function checkInputsGraph() {
     alert("please enter numerical values between 0-100 for both inputs, or leave blank for default values"); 
   }
 }
+
+const infoButton = document.getElementsByClassName("infoButton");
+infoButton[0].addEventListener("click", (event) => {
+  const infoDiv = document.getElementsByClassName("infoDiv"); 
+  const infoDivTri = document.getElementsByClassName("infoDivTri"); 
+  if (infoMode == 0) {
+    infoDiv[0].style.display = "flex"; 
+    infoDivTri[0].style.display = "flex"; 
+    infoMode = 1; 
+    if (mode.name == "reqGrade") {
+      infoDiv[0].innerHTML = "formula:\nF = (G-C*(1-w))/w\n\nF = final grade\nG = target grade\nw = % weight as decimal\nC = current grade"; 
+    } else if (mode.name == "courseGrade") {
+      infoDiv[0].innerHTML = "formula:\nG = F*w+C*(1-w)\n\nG = course grade\nF = final grade\nw = % weight as decimal\nC = current grade";
+    } else if (mode.name == "finalSlider") {
+      infoDiv[0].innerHTML = "meet the visual graph!\n\nchange inputs to change\ngrade range & slope\n\ntooltip: use slider for static and hover over\ngraph for dynamic";
+    } else if (mode.name == "gpaImpact") {
+      infoDiv[0].innerHTML = "formula:\nI = (G*C+N*c)/(C+c)\n\nI = gpa impact\nG = current gpa\nC = completed credits\nN = new course grade\nc = new course credits";
+    }
+  } else {
+    infoDiv[0].style.display = "none"; 
+    infoDivTri[0].style.display = "none"; 
+    infoMode = 0; 
+  }
+}); 
