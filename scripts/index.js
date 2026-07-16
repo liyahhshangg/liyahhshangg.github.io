@@ -68,37 +68,38 @@ let finalSliderText = {
   value: ["current grade: ", "final weight: ", "currGrade default: 90", "finalWeight default: 15"]
 }
 
+//START 
 let chart;
-let isChart = false; 
+let isChart = false;
 let selectedI = 50;
-let dPs = []; 
+let dPs = [];
 
-let mode = reqGrade; 
-let mode2 = reqGradeText; 
-let infoMode = 0; 
-createScreen(mode, mode2); 
+let mode = reqGrade;
+let mode2 = reqGradeText;
+let infoMode = 0;
+createScreen(mode, mode2);
 
 function createScreen(array, array2) {
-  clearScreen(); 
-  const options = document.getElementsByClassName("options"); 
+  clearScreen();
+  const options = document.getElementsByClassName("options");
   if (array.name == "reqGrade" || array.name == "courseGrade") {
-    options[0].style.marginTop = (1.3 * 0.05 * 95) + "vh"; 
+    options[0].style.marginTop = (1.3 * 0.05 * 95) + "vh";
   } else if (array.name == "finalSlider") {
-    options[0].style.marginTop = (1.05 * 0.05 * 95) + "vh"; 
+    options[0].style.marginTop = (1.05 * 0.05 * 95) + "vh";
   } else if (array.name == "gpaImpact") {
-    options[0].style.marginTop = (1.1 * 0.05 * 95) + "vh"; 
+    options[0].style.marginTop = (1.1 * 0.05 * 95) + "vh";
   }
   const mains = document.getElementsByClassName("main");
-  const images = document.getElementsByClassName("bg"); 
-  createInfo(); 
+  const images = document.getElementsByClassName("bg");
+  createInfo();
   createAbout(array.name);
   createInputs(array.value, array2.value);
   if (array.name == "finalSlider") {
     mains[0].style.height = "154.75vh"; //95+55+4.75
-    images[0].src = "images/grade-calculator-graphic-2.svg"; 
-    createChart(90, 15); 
+    images[0].src = "images/grade-calculator-graphic-2.svg";
+    createChart(90, 15);
   } else {
-    mains[0].style.height = "95vh"; 
+    mains[0].style.height = "95vh";
     images[0].src = "images/grade-calculator-graphic-1.svg"
     createEnter();
   }
@@ -160,18 +161,18 @@ function createInputs(arrVal, arrVal2) {
     inputDivInput.type = "text";
     inputDivInput.name = arrVal[i];
     inputDivInput.id = arrVal[i];
-    inputDivInput.placeholder = arrVal2[i+(arrVal2.length/2)];
+    inputDivInput.placeholder = arrVal2[i + (arrVal2.length / 2)];
 
     inputDiv.appendChild(inputDivText);
     inputDiv.appendChild(inputDivInput);
     inputForm.appendChild(inputDiv);
     inputs[0].appendChild(inputForm);
-    inputDivInput.style.width = returnEvenWidth(inputDiv, inputDivText, inputDivInput); 
+    inputDivInput.style.width = returnEvenWidth(inputDiv, inputDivText, inputDivInput);
   }
   if (mode.name == "finalSlider") { //create inputs before create chart
     const sliderContainer = document.createElement("div");
     sliderContainer.classList.add("input");
-    sliderContainer.id = "sliderContainer"; 
+    sliderContainer.id = "sliderContainer";
 
     const slider = document.createElement("input");
     slider.classList.add("inputParam");
@@ -184,20 +185,21 @@ function createInputs(arrVal, arrVal2) {
     const sliderValue = document.createElement("span");
     sliderValue.classList.add("inputText");
     sliderValue.id = "sliderValue";
-    sliderValue.textContent = "050"; 
-    sliderValue.style.color = "var(--option-color-active)"; 
+    sliderValue.textContent = "050";
+    sliderValue.style.color = "var(--option-color-active)";
+    selectedI = 50; 
 
     const sliderMin = document.createElement("span");
     sliderMin.classList.add("inputText");
     sliderMin.id = "sliderMin";
-    sliderMin.textContent = slider.min; 
-    sliderMin.style.marginLeft = "2.9vw"; 
+    sliderMin.textContent = slider.min;
+    sliderMin.style.marginLeft = "2.9vw";
 
     const sliderMax = document.createElement("span");
     sliderMax.classList.add("inputText");
     sliderMax.id = "sliderMax";
-    sliderMax.textContent = slider.max; 
-    sliderMax.style.marginLeft = "0"; 
+    sliderMax.textContent = slider.max;
+    sliderMax.style.marginLeft = "0";
 
     sliderContainer.appendChild(sliderValue);
     sliderContainer.appendChild(sliderMin);
@@ -209,12 +211,12 @@ function createInputs(arrVal, arrVal2) {
 }
 
 function returnEvenWidth(div, text, input) {
-  let divWidth = div.offsetWidth; 
-  let textWidth = text.offsetWidth; 
-  let inputWidth = input.offsetWidth; 
+  let divWidth = div.offsetWidth;
+  let textWidth = text.offsetWidth;
+  let inputWidth = input.offsetWidth;
   const rect1 = text.getBoundingClientRect();
   const rect2 = input.getBoundingClientRect();
-  let gapWidth = rect2.left - rect1.right; 
+  let gapWidth = rect2.left - rect1.right;
   let marginWidth = parseFloat(window.getComputedStyle(text).marginLeft);
   return (divWidth - textWidth - gapWidth - 40 - marginWidth) + "px";
 }
@@ -233,11 +235,11 @@ function checkInputs() {
   for (let i = 0; i < form.length; i++) {
     let id = form.elements[i].id;
     let stringVal = form.elements[i].value;
-    let int2 = parseInt(form.elements[i].value);
+    let intVal = parseInt(form.elements[i].value);
     if (stringVal == "" || intVal < 0) {
       alert("please enter a non-negative value for " + id);
       return false;
-    } else if (id != "newGrade" && !intVal) {
+    } else if (id != "newGrade" && !intVal && intVal != 0) {
       alert("please enter a numerical value for " + id);
       return false;
     } else if (id != "compCreds" && intVal > 100) {
@@ -296,72 +298,106 @@ function createChart(currG, finalW) {
   mains[0].appendChild(chartContainer);
 
   let xVal = 0;
-  let yVal = 0; 
+  let yVal = 0;
   chart = new CanvasJS.Chart("chartContainer", {
     interactivityEnabled: true,
     showTooltip: true,
-    titleWrap: true, 
-    backgroundColor: "#dcebff", 
-    title: { 
-      text: "so what if?", 
-      fontColor: "rgb(125, 155, 215)", 
-      fontFamily: "courier new", 
-      padding: "10", 
+    titleWrap: true,
+    backgroundColor: "#dcebff",
+    title: {
+      text: "so what if?",
+      fontColor: "rgb(125, 155, 215)",
+      fontFamily: "courier new",
+      padding: "10",
     },
-    axisX: { 
-      title: "what if? final exam score (%)", 
+    axisX: {
+      title: "what if? final exam score (%)",
       titleFontColor: "#00005b",
       titleFontFamily: "courier new",
       titlePadding: 15,
-      includeZero: true, 
+      includeZero: true,
     },
-    axisY: { 
-      title: "overall course grade", 
+    axisY: {
+      title: "overall course grade",
       titleFontColor: "#00005b",
       titleFontFamily: "courier new",
       titlePadding: 20,
-    }, 
+    },
     data: [{
       type: "line",
-      dataPoints: dPs, 
-    }], 
+      dataPoints: dPs,
+    }],
     toolTip: {
-      shared: false, 
-      fontColor: "black", 
-      fontWeight: "bold", 
-      fontFamily: "courier new", 
-      backgroundColor: "white", 
-      borderThickness: 10.5, 
-      borderColor: "white", 
-      cornerRadius: 2, 
+      shared: false,
+      fontColor: "black",
+      fontWeight: "bold",
+      fontFamily: "courier new",
+      backgroundColor: "white",
+      borderThickness: 10.5,
+      borderColor: "white",
+      cornerRadius: 2,
       content: "final exam score: {x}%, course grade: {y}",
-    }, 
-  }); 
-  isChart = true; 
+    },
+  });
+  isChart = true;
 
-  for (let i = 0; i < 111; i+=1) {
-    xVal = i; 
-    yVal = calcCourseGrade(currG, i, finalW); 
+  for (let i = 0; i < 111; i += 1) {
+    xVal = i;
+    yVal = calcCourseGrade(currG, i, finalW);
     dPs.push({
       x: xVal,
       y: yVal
     });
   }
   chart.render();
-  createToolTip(); 
+  createToolTip();
 }
 
 function updateChart(currG, finalW) {
-  clearChart(); 
-  clearToolTip(); 
-  let points = chart.options.data[0].dataPoints; 
+  clearChart();
+  clearToolTip();
+  let points = chart.options.data[0].dataPoints;
   for (let i = 0; i < 111; i += 1) { points.push({ x: i, y: calcCourseGrade(currG, i, finalW) }); }
   chart.render();
-  createToolTip(); 
+  createToolTip();
 }
 
 function clearChart() {
-  for (let i = 0; i < 111; i += 1) { chart.options.data[0].dataPoints.shift(); }
+  for (let i = 0; i < 111; i += 1) { chart.options.data[0].dataPoints.shift(); } 
+  clearToolTip(); 
+}
+
+function checkInputsGraph() {
+  let isClear1 = true;
+  let isClear2 = true;
+  let input1 = 90;
+  let input2 = 15;
+
+  let id1 = form.elements[0].id;
+  let string1 = form.elements[0].value;
+  let int1 = parseInt(form.elements[0].value);
+  if (string1 == "") {
+    input1 = 90;
+  } else if (int1 < 0 || int1 > 100 || Number.isNaN(int1)) {
+    isClear1 = false;
+  } else {
+    input1 = int1;
+  }
+  let id2 = form.elements[1].id;
+  let string2 = form.elements[1].value;
+  let int2 = parseInt(form.elements[1].value);
+  if (string2 == "") {
+    input2 = 15;
+  } else if (int2 < 0 || int2 > 100 || Number.isNaN(int2)) {
+    isClear2 = false;
+  } else {
+    input2 = int2;
+  }
+  if (isClear1 && isClear2) {
+    updateChart(input1, input2);
+  } else {
+    alert("please enter numerical values between 0-100 for both inputs, or leave blank for default values");
+  }
 }
 
 function createToolTip() {
@@ -378,7 +414,7 @@ function createToolTip() {
   const mains = document.getElementsByClassName("main");
   mains[0].appendChild(toolTip);
   mains[0].appendChild(triangle);
-  mains[0].appendChild(dot); 
+  mains[0].appendChild(dot);
 
   const dp = dPs[selectedI];
   const pixelX = chart.axisX[0].convertValueToPixel(dp.x);
@@ -402,15 +438,11 @@ function clearToolTip() {
 }
 
 function createInfo() {
-  const infoDiv = document.getElementsByClassName("infoDiv"); 
-  const infoDivTri = document.getElementsByClassName("infoDivTri"); 
-  infoDiv[0].style.display = "none"; 
-  infoDivTri[0].style.display = "none"; 
+  const infoDiv = document.getElementsByClassName("infoDiv");
+  const infoDivTri = document.getElementsByClassName("infoDivTri");
+  infoDiv[0].style.display = "none";
+  infoDivTri[0].style.display = "none";
 }
-
-// TO-DO: 
-// add info button to explain each formula 
-// maybe: make so first input of slider actually fires 
 
 const reqGradeButton = document.getElementById("reqGrade");
 reqGradeButton.addEventListener("click", () => {
@@ -446,85 +478,52 @@ enters[0].addEventListener("click", (event) => {
   if (enterButton && checkInputs()) { displayResult(mode); }
 });
 
-const inputs = document.getElementsByClassName("inputs"); 
+const inputs = document.getElementsByClassName("inputs");
 inputs[0].addEventListener("input", function (e) {
   if (e.target && e.target.id === "slider") {
     const sliderContainer = document.getElementById("sliderContainer");
     const slider = document.getElementById("slider");
-    const sliderValue = document.getElementById("sliderValue"); 
+    const sliderValue = document.getElementById("sliderValue");
     slider.addEventListener("input", function () {
       selectedI = this.value;
       let text = selectedI;
       if (text.charAt(1) == "" && text.charAt(2) == "") {
         text = "00" + text;
-      } else if (text.charAt(2) == ""){
+      } else if (text.charAt(2) == "") {
         text = "0" + text;
       }
       sliderValue.textContent = text;
-      clearToolTip(); 
+      clearToolTip();
       createToolTip();
       chart.render();
     });
   }
-});
+}); 
 
 document.addEventListener("change", function (e) {
-  const target = e.target.closest("#currGrade"); 
+  const target = e.target.closest("#currGrade");
   if (target && mode.name == "finalSlider") {
-    checkInputsGraph(); 
+    checkInputsGraph();
   }
-});
+}); 
 
 document.addEventListener("change", function (e) {
   const target = e.target.closest("#finalWeight");
   if (target && mode.name == "finalSlider") {
-    checkInputsGraph(); 
+    checkInputsGraph();
   }
-});
-
-function checkInputsGraph() {
-  let isClear1 = true; 
-  let isClear2 = true; 
-  let input1 = 90; 
-  let input2 = 15; 
-
-  let id1 = form.elements[0].id;
-  let string1 = form.elements[0].value;
-  let int1 = parseInt(form.elements[0].value);
-  if (string1 == "") {
-    input1 = 90; 
-  } else if (int1 < 0 || int1 > 100 || Number.isNaN(int1)) {
-    isClear1 = false; 
-  } else {
-    input1 = int1; 
-  }
-  let id2 = form.elements[1].id;
-  let string2 = form.elements[1].value;
-  let int2 = parseInt(form.elements[1].value);
-  if (string2 == "") {
-    input2 = 15; 
-  } else if (int2 < 0 || int2 > 100 || Number.isNaN(int2)) {
-    isClear2 = false;
-  } else {
-    input2 = int2; 
-  }
-  if (isClear1 && isClear2) { 
-    updateChart(input1, input2); 
-  } else {
-    alert("please enter numerical values between 0-100 for both inputs, or leave blank for default values"); 
-  }
-}
+}); 
 
 const infoButton = document.getElementsByClassName("infoButton");
 infoButton[0].addEventListener("click", (event) => {
-  const infoDiv = document.getElementsByClassName("infoDiv"); 
-  const infoDivTri = document.getElementsByClassName("infoDivTri"); 
+  const infoDiv = document.getElementsByClassName("infoDiv");
+  const infoDivTri = document.getElementsByClassName("infoDivTri");
   if (infoMode == 0) {
-    infoDiv[0].style.display = "flex"; 
-    infoDivTri[0].style.display = "flex"; 
-    infoMode = 1; 
+    infoDiv[0].style.display = "flex";
+    infoDivTri[0].style.display = "flex";
+    infoMode = 1;
     if (mode.name == "reqGrade") {
-      infoDiv[0].innerHTML = "formula:\nF = (G-C*(1-w))/w\n\nF = final grade\nG = target grade\nw = % weight as decimal\nC = current grade"; 
+      infoDiv[0].innerHTML = "formula:\nF = (G-C*(1-w))/w\n\nF = final grade\nG = target grade\nw = % weight as decimal\nC = current grade";
     } else if (mode.name == "courseGrade") {
       infoDiv[0].innerHTML = "formula:\nG = F*w+C*(1-w)\n\nG = course grade\nF = final grade\nw = % weight as decimal\nC = current grade";
     } else if (mode.name == "finalSlider") {
@@ -533,8 +532,8 @@ infoButton[0].addEventListener("click", (event) => {
       infoDiv[0].innerHTML = "formula:\nI = (G*C+N*c)/(C+c)\n\nI = gpa impact\nG = current gpa\nC = completed credits\nN = new course grade\nc = new course credits";
     }
   } else {
-    infoDiv[0].style.display = "none"; 
-    infoDivTri[0].style.display = "none"; 
-    infoMode = 0; 
+    infoDiv[0].style.display = "none";
+    infoDivTri[0].style.display = "none";
+    infoMode = 0;
   }
 }); 
