@@ -83,11 +83,10 @@ function createScreen(array, array2) {
   if (array.name == "reqGrade" || array.name == "courseGrade") {
     options[0].style.marginTop = (1.3 * 0.05 * 95) + "vh"; 
   } else if (array.name == "finalSlider") {
-    options[0].style.marginTop = (1 * 0.05 * 95) + "vh"; 
+    options[0].style.marginTop = (1.05 * 0.05 * 95) + "vh"; 
   } else if (array.name == "gpaImpact") {
     options[0].style.marginTop = (1.1 * 0.05 * 95) + "vh"; 
   }
-
   const mains = document.getElementsByClassName("main");
   const images = document.getElementsByClassName("image"); 
   createAbout(array.name);
@@ -385,14 +384,14 @@ function createToolTip() {
   const chartRect = document.getElementById("chartContainer").getBoundingClientRect();
   toolTip.style.display = "block";
   toolTip.style.left = (pixelX + chartRect.left - toolTip.offsetWidth / 2) + "px";
-  toolTip.style.top = (pixelY + 560 - 107) + "px";
+  toolTip.style.top = (pixelY + 559 - 70) + "px"; //70 px above dot
   toolTip.innerHTML = "final exam: " + (dp.x).toString() + " \nfinal grade: " + (dp.y).toString();
   triangle.style.display = "block";
   triangle.style.left = (pixelX + chartRect.left - triangle.offsetWidth / 2) + "px";
-  triangle.style.top = (pixelY + 560 - 42) + "px";
+  triangle.style.top = (pixelY + 586 - 32) + "px"; //32 px above dot
   dot.style.display = "block";
   dot.style.left = (pixelX + chartRect.left - dot.offsetWidth / 2) + "px";
-  dot.style.top = (pixelY + 560 - 18) + "px";
+  dot.style.top = (pixelY + 586) + "px";
 }
 
 function clearToolTip() {
@@ -401,7 +400,7 @@ function clearToolTip() {
 }
 
 // TO-DO: 
-// add info button to explain each formula!! 
+// add info button to explain each formula, add input checker for what if?? 
 // maybe: make so first input of slider actually fires 
 
 const reqGradeButton = document.getElementById("reqGrade");

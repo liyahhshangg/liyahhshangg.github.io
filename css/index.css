@@ -193,14 +193,14 @@ img {
   outline-color: orange;
 
   position: absolute; 
-  top: calc(0.72*var(--main-height)); 
+  top: calc(0.775*var(--main-height)); 
   left: 50%; transform: translate(-50%, calc(50% - var(--def-width-1) / 2));
-
-  margin-bottom: var(--def-margin);
 
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
+
+  z-index: 0; 
 }
 
 #toolTip {
@@ -235,7 +235,7 @@ img {
   
   width: 0;
   height: 0;
-  z-index: 10;
+  z-index: 15;
 }
 
 #toolTipDot {
