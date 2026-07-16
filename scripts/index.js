@@ -77,6 +77,9 @@ let mode = reqGrade;
 let mode2 = reqGradeText;
 createScreen(mode, mode2); 
 
+console.log(document.getElementsByClassName("main")[0].offsetWidth); 
+console.log(document.getElementsByClassName("main")[0].offsetHeight); 
+
 function createScreen(array, array2) {
   clearScreen(); 
   const mains = document.getElementsByClassName("main");

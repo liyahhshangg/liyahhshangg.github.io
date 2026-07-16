@@ -30,12 +30,19 @@
   height: var(--main-height); 
 }
 
+img {
+  position: absolute;
+  top: 0; 
+
+  z-index: -10; 
+}
+
 .header {
   display: flex; 
   align-items: center; 
   justify-content: center; 
 
-  margin-top: var(--def-margin); 
+  margin-top: 5.75vw;
 
   width: var(--def-width-1); 
   height: calc(0.15*var(--main-height)); 
