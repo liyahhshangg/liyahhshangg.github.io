@@ -16,7 +16,7 @@ function calcCourseGrade(currGrade, finalGrade, finalWeight) {
 // I = gpa impact, G = current gpa, C = completed credits, N = new course grade, c = new course credits, 
 function calcGpaImpact(currGPA, compCreds, newGrade, newCreds) {
   if (!parseInt(newGrade)) {
-    let base = Math.abs(newGrade.charCodeAt(0) - 69);  //doesn't work for F (it's E)
+    let base = Math.abs(newGrade.charCodeAt(0) - 69); 
     if (newGrade.includes("F")) {
       base = 0;
     } else {
@@ -69,55 +69,53 @@ let finalSliderText = {
 }
 
 //START 
-let chart;
-let isChart = false;
-let selectedI = 50;
-let dPs = [];
+let chart; 
+let isChart = false; 
+let selectedI = 50; 
+let dPs = []; 
 
-let mode = reqGrade;
-let mode2 = reqGradeText;
-let infoMode = 0;
-createScreen(mode, mode2);
+let mode = reqGrade; 
+let mode2 = reqGradeText; 
+let infoMode = 0; 
+createScreen(mode, mode2); 
 
 function createScreen(array, array2) {
-  clearScreen();
-  const options = document.getElementsByClassName("options");
+  clearScreen(); 
+  const option = document.getElementsByClassName("options")[0]; 
   if (array.name == "reqGrade" || array.name == "courseGrade") {
-    options[0].style.marginTop = (1.3 * 0.05 * 95) + "vh";
+    option.style.marginTop = (1.3 * 0.05 * 95) + "vh";
   } else if (array.name == "finalSlider") {
-    options[0].style.marginTop = (1.05 * 0.05 * 95) + "vh";
+    option.style.marginTop = (1.05 * 0.05 * 95) + "vh";
   } else if (array.name == "gpaImpact") {
-    options[0].style.marginTop = (1.1 * 0.05 * 95) + "vh";
+    option.style.marginTop = (1.1 * 0.05 * 95) + "vh";
   }
-  const mains = document.getElementsByClassName("main");
-  const images = document.getElementsByClassName("bg");
+  const main = document.getElementsByClassName("main")[0];
+  const image = document.getElementsByClassName("bg")[0];
   createInfo();
   createAbout(array.name);
   createInputs(array.value, array2.value);
   if (array.name == "finalSlider") {
-    mains[0].style.height = "154.75vh"; //95+55+4.75
-    images[0].src = "images/grade-calculator-graphic-1.svg";
+    main.style.height = "154.75vh"; //95+55+4.75
+    image.src = "images/grade-calculator-graphic-1.svg";
     createChart(90, 15);
   } else {
-    mains[0].style.height = "95vh";
-    images[0].src = "images/grade-calculator-graphic.svg"
+    main.style.height = "95vh";
+    image.src = "images/grade-calculator-graphic.svg";
     createEnter();
   }
 }
 
 function clearScreen() {
-  if (isChart) { 
-    clearChart(); 
-  }
+  if (isChart) { clearChart(); }
   const enterParams = document.querySelectorAll(".enterParam");
   enterParams.forEach(elem => elem.remove());
   const charts = document.querySelectorAll(".charts");
   charts.forEach(elem => elem.remove());
   const toolTips = document.querySelectorAll(".toolTip");
   toolTips.forEach(elem => elem.remove());
-  const inputs = document.getElementsByClassName("inputs");
-  while (inputs[0].firstChild) {
-    inputs[0].removeChild(inputs[0].firstChild);
+  const input = document.getElementsByClassName("inputs")[0];
+  while (input.firstChild) {
+    input.removeChild(input.firstChild);
   }
 }
 
@@ -132,20 +130,20 @@ function createAbout(arrName) {
       options[i].classList.add("inactive");
     }
   }
-  const abouts = document.getElementsByClassName("about");
+  const about = document.getElementsByClassName("about")[0];
   if (arrName == "reqGrade") {
-    abouts[0].innerHTML = "final grade calculator: calculates what final exam grade you'll need to get desired course grade";
+    about.innerHTML = "final grade calculator: calculates what final exam grade you'll need to get desired course grade";
   } else if (arrName == "courseGrade") {
-    abouts[0].innerHTML = "course grade calculator: calculates your overall course grade after you've taken the final";
+    about.innerHTML = "course grade calculator: calculates your overall course grade after you've taken the final";
   } else if (arrName == "gpaImpact") {
-    abouts[0].innerHTML = "gpa impact calculator: calculates your new gpa and overall gpa impact after taking a new course";
+    about.innerHTML = "gpa impact calculator: calculates your new gpa and overall gpa impact after taking a new course";
   } else if (arrName == "finalSlider") {
-    abouts[0].innerHTML = "what if? grade visuzalizer: graphs the max/min course grade you can get for different final exam scores ";
+    about.innerHTML = "what if? grade visuzalizer: graphs the max/min course grade you can get for different final exam scores ";
   }
 }
 
 function createInputs(arrVal, arrVal2) {
-  const inputs = document.getElementsByClassName("inputs");
+  const input = document.getElementsByClassName("inputs")[0];
   const inputForm = document.createElement("form");
   inputForm.id = "form";
 
@@ -169,7 +167,7 @@ function createInputs(arrVal, arrVal2) {
     inputDiv.appendChild(inputDivText);
     inputDiv.appendChild(inputDivInput);
     inputForm.appendChild(inputDiv);
-    inputs[0].appendChild(inputForm);
+    input.appendChild(inputForm);
     inputDivInput.style.width = returnEvenWidth(inputDiv, inputDivText, inputDivInput);
   }
 
@@ -191,7 +189,7 @@ function createInputs(arrVal, arrVal2) {
     sliderValue.id = "sliderValue";
     sliderValue.textContent = "050";
     sliderValue.style.color = "var(--option-color-active)";
-    selectedI = 50; 
+    selectedI = 50;
 
     const sliderMin = document.createElement("span");
     sliderMin.classList.add("inputText");
@@ -210,7 +208,7 @@ function createInputs(arrVal, arrVal2) {
     sliderContainer.appendChild(slider);
     sliderContainer.appendChild(sliderMax);
     inputForm.appendChild(sliderContainer);
-    inputs[0].appendChild(inputForm);
+    input.appendChild(inputForm);
   }
 }
 
@@ -226,12 +224,12 @@ function returnEvenWidth(div, text, input) {
 }
 
 function createEnter() {
-  const enters = document.getElementsByClassName("enter");
+  const enter = document.getElementsByClassName("enter")[0];
   const enterInput = document.createElement("button");
   enterInput.classList.add("enterParam");
   enterInput.textContent = "submit";
   enterInput.id = "enterButton";
-  enters[0].appendChild(enterInput);
+  enter.appendChild(enterInput);
 }
 
 function checkInputs() {
@@ -239,17 +237,17 @@ function checkInputs() {
   for (let i = 0; i < form.length; i++) {
     let id = form.elements[i].id;
     let stringVal = form.elements[i].value;
-    let intVal = parseInt(form.elements[i].value); 
+    let intVal = parseInt(form.elements[i].value);
     const noDiDec = /[^0-9.]/g; //matches any char that's not a digit or decimal 
     const noDiDecPML = /.*[^0-9\.ABCDF\+\-].*/; //matches any char that's not a digit, decimal, +, -, or letters ABCDF 
     const search = [".", "+", "-"]; //search: only special char 
-    
+
     if (stringVal == "" || intVal < 0) {
       alert("please enter a non-negative value for " + id);
       return false;
     } else if (id != "newGrade" && noDiDec.test(stringVal)) {
       alert("please enter a numerical value for " + id);
-      return false; 
+      return false;
     } else if (id != "compCreds" && intVal > 100) {
       alert("please enter a value between 0 - 100 for " + id);
       return false;
@@ -257,9 +255,9 @@ function checkInputs() {
       alert("please enter a numerical value between 0 - 100 or a valid grade letter for " + id);
       return false;
     } else if (id != "newGrade" && search.some(val => stringVal.includes(val)) && noDiDec.test(stringVal)) { // only has special char 
-      alert("please enter a numerical value for " + id); 
-      return false; 
-    } 
+      alert("please enter a numerical value for " + id);
+      return false;
+    }
   }
   return true;
 }
@@ -305,8 +303,8 @@ function createChart(currG, finalW) {
   chartContainer.classList.add("charts");
   chartContainer.id = "chartContainer";
   chartContainer.style = "height: var(--def-width-1); width: calc(1.1 * var(--def-width-2));"
-  const mains = document.getElementsByClassName("main");
-  mains[0].appendChild(chartContainer);
+  const main = document.getElementsByClassName("main")[0];
+  main.appendChild(chartContainer);
 
   let xVal = 0;
   let yVal = 0;
@@ -367,18 +365,18 @@ function updateChart(currG, finalW) {
   clearChart();
   clearToolTip();
   let points = chart.options.data[0].dataPoints;
-  for (let i = 0; i < 111; i += 1) { 
-    points.push({ x: i, y: calcCourseGrade(currG, i, finalW) }); 
+  for (let i = 0; i < 111; i += 1) {
+    points.push({ x: i, y: calcCourseGrade(currG, i, finalW) });
   }
   chart.render();
   createToolTip();
 }
 
 function clearChart() {
-  for (let i = 0; i < 111; i += 1) { 
-    chart.options.data[0].dataPoints.shift(); 
-  } 
-  clearToolTip(); 
+  for (let i = 0; i < 111; i += 1) {
+    chart.options.data[0].dataPoints.shift();
+  }
+  clearToolTip();
 }
 
 function checkInputsGraph() {
@@ -387,7 +385,7 @@ function checkInputsGraph() {
   let isClear2 = true;
   let input1 = 90;
   let input2 = 15;
-  
+
   let id1 = form.elements[0].id;
   let string1 = form.elements[0].value;
   let int1 = parseInt(form.elements[0].value);
@@ -427,10 +425,10 @@ function createToolTip() {
   dot.className = "toolTip";
   dot.id = "toolTipDot";
 
-  const mains = document.getElementsByClassName("main");
-  mains[0].appendChild(toolTip);
-  mains[0].appendChild(triangle);
-  mains[0].appendChild(dot);
+  const main = document.getElementsByClassName("main")[0];
+  main.appendChild(toolTip);
+  main.appendChild(triangle);
+  main.appendChild(dot);
 
   const dp = dPs[selectedI];
   const pixelX = chart.axisX[0].convertValueToPixel(dp.x);
@@ -454,10 +452,10 @@ function clearToolTip() {
 }
 
 function createInfo() {
-  const infoDiv = document.getElementsByClassName("infoDiv");
-  const infoDivTri = document.getElementsByClassName("infoDivTri");
-  infoDiv[0].style.display = "none";
-  infoDivTri[0].style.display = "none";
+  const infoDiv = document.getElementsByClassName("infoDiv")[0];
+  const infoDivTri = document.getElementsByClassName("infoDivTri")[0];
+  infoDiv.style.display = "none";
+  infoDivTri.style.display = "none";
 }
 
 const reqGradeButton = document.getElementById("reqGrade");
@@ -488,16 +486,16 @@ finalSliderButton.addEventListener("click", () => {
   createScreen(finalSlider, finalSliderText);
 });
 
-const enters = document.getElementsByClassName("enter");
-enters[0].addEventListener("click", (event) => {
+const enter = document.getElementsByClassName("enter")[0];
+enter.addEventListener("click", (event) => {
   const enterButton = event.target.closest(".enterParam");
-  if (enterButton && checkInputs()) { 
-    displayResult(mode); 
+  if (enterButton && checkInputs()) {
+    displayResult(mode);
   }
 });
 
-const inputs = document.getElementsByClassName("inputs");
-inputs[0].addEventListener("input", function (e) {
+const input = document.getElementsByClassName("inputs")[0];
+input.addEventListener("input", function (e) {
   if (e.target && e.target.id === "slider") {
     const sliderContainer = document.getElementById("sliderContainer");
     const slider = document.getElementById("slider");
@@ -516,42 +514,42 @@ inputs[0].addEventListener("input", function (e) {
       chart.render();
     });
   }
-}); 
+});
 
 document.addEventListener("change", function (e) {
   const target = e.target.closest("#currGrade");
   if (target && mode.name == "finalSlider") {
     checkInputsGraph();
   }
-}); 
+});
 
 document.addEventListener("change", function (e) {
   const target = e.target.closest("#finalWeight");
   if (target && mode.name == "finalSlider") {
     checkInputsGraph();
   }
-}); 
+});
 
-const infoButton = document.getElementsByClassName("infoButton");
-infoButton[0].addEventListener("click", (event) => {
-  const infoDiv = document.getElementsByClassName("infoDiv");
-  const infoDivTri = document.getElementsByClassName("infoDivTri");
+const infoButton = document.getElementsByClassName("infoButton")[0];
+infoButton.addEventListener("click", (event) => {
+  const infoDiv = document.getElementsByClassName("infoDiv")[0];
+  const infoDivTri = document.getElementsByClassName("infoDivTri")[0];
   if (infoMode == 0) {
-    infoDiv[0].style.display = "flex";
-    infoDivTri[0].style.display = "flex";
+    infoDiv.style.display = "flex";
+    infoDivTri.style.display = "flex";
     infoMode = 1;
     if (mode.name == "reqGrade") {
-      infoDiv[0].innerHTML = "formula:\nF = (G-C*(1-w))/w\n\nF = final grade\nG = target grade\nw = % weight as decimal\nC = current grade";
+      infoDiv.innerHTML = "formula:\nF = (G-C*(1-w))/w\n\nF = final grade\nG = target grade\nw = % weight as decimal\nC = current grade";
     } else if (mode.name == "courseGrade") {
-      infoDiv[0].innerHTML = "formula:\nG = F*w+C*(1-w)\n\nG = course grade\nF = final grade\nw = % weight as decimal\nC = current grade";
+      infoDiv.innerHTML = "formula:\nG = F*w+C*(1-w)\n\nG = course grade\nF = final grade\nw = % weight as decimal\nC = current grade";
     } else if (mode.name == "finalSlider") {
-      infoDiv[0].innerHTML = "meet the visual graph!\n\nchange inputs to change\ngrade range & slope\n\ntooltip: use slider for static and hover over\ngraph for dynamic";
+      infoDiv.innerHTML = "meet the visual graph!\n\nchange inputs to change\ngrade range & slope\n\ntooltip: use slider for static and hover over\ngraph for dynamic";
     } else if (mode.name == "gpaImpact") {
-      infoDiv[0].innerHTML = "formula:\nI = (G*C+N*c)/(C+c)\n\nI = gpa impact\nG = current gpa\nC = completed credits\nN = new course grade\nc = new course credits";
+      infoDiv.innerHTML = "formula:\nI = (G*C+N*c)/(C+c)\n\nI = gpa impact\nG = current gpa\nC = completed credits\nN = new course grade\nc = new course credits";
     }
   } else {
-    infoDiv[0].style.display = "none";
-    infoDivTri[0].style.display = "none";
+    infoDiv.style.display = "none";
+    infoDivTri.style.display = "none";
     infoMode = 0;
   }
 }); 
