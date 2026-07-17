@@ -96,11 +96,11 @@ function createScreen(array, array2) {
   createInputs(array.value, array2.value);
   if (array.name == "finalSlider") {
     mains[0].style.height = "154.75vh"; //95+55+4.75
-    images[0].src = "images/grade-calculator-graphic-2.svg";
+    images[0].src = "images/grade-calculator-graphic-1.svg";
     createChart(90, 15);
   } else {
     mains[0].style.height = "95vh";
-    images[0].src = "images/grade-calculator-graphic-1.svg"
+    images[0].src = "images/grade-calculator-graphic.svg"
     createEnter();
   }
 }
@@ -235,20 +235,22 @@ function checkInputs() {
   for (let i = 0; i < form.length; i++) {
     let id = form.elements[i].id;
     let stringVal = form.elements[i].value;
-    let intVal = parseInt(form.elements[i].value);
+    let intVal = parseInt(form.elements[i].value); 
+    const regex = /[^0-9.]/g; //matches any char that's not a digit or decimal 
+    const regex1 = /.*[^0-9\.ABCDF\+\-].*/; //matches any char that's not a digit, decimal, +, -, or letters ABCDF 
     if (stringVal == "" || intVal < 0) {
       alert("please enter a non-negative value for " + id);
       return false;
-    } else if (id != "newGrade" && !intVal && intVal != 0) {
+    } else if (id != "newGrade" && regex.test(stringVal)) {
       alert("please enter a numerical value for " + id);
-      return false;
+      return false; 
     } else if (id != "compCreds" && intVal > 100) {
       alert("please enter a value between 0 - 100 for " + id);
       return false;
-    } else if (id == "newGrade" && !intVal && (stringVal.charCodeAt(0) < 65 || stringVal.charCodeAt(0) > 70 || stringVal.charCodeAt(0) == 69)) {
+    } else if (id == "newGrade" && regex1.test(stringVal)) {
       alert("please enter a numerical value between 0 - 100 or a valid grade letter for " + id);
       return false;
-    }
+    } //id == "newGrade" && isNaN(intVal) && (stringVal.charCodeAt(0) < 65 || stringVal.charCodeAt(0) > 70 || stringVal.charCodeAt(0) == 69)
   }
   return true;
 }
@@ -368,17 +370,18 @@ function clearChart() {
 }
 
 function checkInputsGraph() {
+  const regex = /[^0-9.]/g; //matches any char that's not a digit or decimal 
   let isClear1 = true;
   let isClear2 = true;
   let input1 = 90;
   let input2 = 15;
-
+  
   let id1 = form.elements[0].id;
   let string1 = form.elements[0].value;
   let int1 = parseInt(form.elements[0].value);
   if (string1 == "") {
     input1 = 90;
-  } else if (int1 < 0 || int1 > 100 || Number.isNaN(int1)) {
+  } else if (int1 < 0 || int1 > 100 || regex.test(string1)) {
     isClear1 = false;
   } else {
     input1 = int1;
@@ -388,7 +391,7 @@ function checkInputsGraph() {
   let int2 = parseInt(form.elements[1].value);
   if (string2 == "") {
     input2 = 15;
-  } else if (int2 < 0 || int2 > 100 || Number.isNaN(int2)) {
+  } else if (int2 < 0 || int2 > 100 || regex.test(string2)) {
     isClear2 = false;
   } else {
     input2 = int2;
